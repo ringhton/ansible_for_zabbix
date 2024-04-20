@@ -1,0 +1,13 @@
+PidFile=/run/zabbix/zabbix_agentd.pid
+{% if av.stdout == "1.5" %}
+LogFile=/var/log/zabbix-agent/zabbix_agentd.log
+{% endif %}
+{% if av.stdout == "1.6" %}
+LogFile=/var/log/zabbix/zabbix_agentd.log
+{% endif %}
+LogFileSize=0
+Server=192.168.1.87
+ServerActive=192.168.1.87
+Hostname={{ ansible_hostname }}
+HostMetadata=alt.autoreg
+#Include=/etc/zabbix/zabbix_agentd.d/*.conf

@@ -1,0 +1,9 @@
+all:
+  hosts:
+    astra15:
+      ansible_host: 192.168.1.78
+    astra16:
+      ansible_host: 192.168.1.88
+  vars:
+    ansible_ssh_port: 22
+    ansible_ssh_private_key: /home/user/.ssh/id_rsa.pub

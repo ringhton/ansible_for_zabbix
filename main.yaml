@@ -1,0 +1,7 @@
+---
+- name: Ansible configuration
+  hosts: all
+  become: true
+  roles:
+    - zabbix
+

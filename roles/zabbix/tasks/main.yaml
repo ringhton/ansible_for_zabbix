@@ -1,0 +1,14 @@
+- name: Check zabbix-agent
+  shell:
+    "dpkg -l | grep zabbix | awk '{print $2}'"
+  register: check
+- name: Check before install
+  debug:
+    var: check
+- name: Complete install
+  include_tasks:
+    zabbix-agent.yaml
+#    zabbix-host.yaml
+  when: 
+    check.stdout != "zabbix-agent"
+

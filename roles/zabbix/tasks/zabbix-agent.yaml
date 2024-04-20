@@ -1,0 +1,41 @@
+- name: Choose zabbix-agent package
+  shell:
+    "cat /etc/astra_version | sed 's/SE //g' | sed 's/ (smolensk)//g' | sed 's/.1//g'"
+  register: av
+
+- name: Copy zabbix-agent package
+  copy:
+    src: zabbix-agent_{{av.stdout}}.deb
+    dest: /tmp/zabbix.deb
+    owner: user
+    group: user
+    mode: '0644'
+
+- name: Install zabbix
+  apt:
+    deb: /tmp/zabbix.deb
+    state: present
+
+- name: Stop service zabbix-agent
+  service:
+    name: zabbix-agent
+    state: stopped
+
+- name: Remove zabbix config file
+  file:
+    path: /etc/zabbix/zabbix_agentd.conf
+    state: absent
+
+- name: Create new zabbix config file from template
+  template:
+    src: zabbix_agentd.conf.j2
+    dest: "/etc/zabbix/zabbix_agentd.conf"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Start service zabbix-agent
+  service:
+    name: zabbix-agent
+    state: started
+    enabled: true
